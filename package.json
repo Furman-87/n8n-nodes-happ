@@ -1,0 +1,63 @@
+{
+	"name": "n8n-nodes-happ",
+	"version": "0.1.0",
+	"description": "n8n community node for the Happ Platform API (messenger channels and voice assistants)",
+	"keywords": [
+		"n8n-community-node-package",
+		"happ",
+		"telegram",
+		"whatsapp",
+		"instagram",
+		"voice-assistant"
+	],
+	"license": "MIT",
+	"homepage": "https://docs.happ.tools/en/docs/api",
+	"author": {
+		"name": "HappAI",
+		"email": "jora1987kornev@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/happ-tools/n8n-nodes-happ.git"
+	},
+	"engines": {
+		"node": ">=18.10"
+	},
+	"main": "index.js",
+	"scripts": {
+		"build": "tsc && gulp build:icons",
+		"dev": "tsc --watch",
+		"format": "prettier nodes credentials --write",
+		"lint": "eslint nodes credentials package.json",
+		"lintfix": "eslint nodes credentials package.json --fix",
+		"test": "jest",
+		"prepublishOnly": "npm run build && npm run lint"
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"credentials": [
+			"dist/credentials/HappApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/Happ/Happ.node.js",
+			"dist/nodes/Happ/HappTrigger.node.js"
+		]
+	},
+	"devDependencies": {
+		"@types/jest": "^29.5.12",
+		"@typescript-eslint/parser": "^7.15.0",
+		"eslint": "^8.57.0",
+		"eslint-plugin-n8n-nodes-base": "^1.16.3",
+		"gulp": "^4.0.2",
+		"jest": "^29.7.0",
+		"prettier": "^3.3.2",
+		"ts-jest": "^29.1.2",
+		"typescript": "^5.5.3"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
+}
