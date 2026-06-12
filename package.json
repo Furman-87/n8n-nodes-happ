@@ -23,13 +23,12 @@
 	"engines": {
 		"node": ">=18.10"
 	},
-	"main": "index.js",
 	"scripts": {
 		"build": "tsc && gulp build:icons",
 		"dev": "tsc --watch",
 		"format": "prettier nodes credentials --write",
-		"lint": "eslint nodes credentials package.json",
-		"lintfix": "eslint nodes credentials package.json --fix",
+		"lint": "eslint nodes credentials package.json --no-error-on-unmatched-pattern",
+		"lintfix": "eslint nodes credentials package.json --fix --no-error-on-unmatched-pattern",
 		"test": "jest",
 		"prepublishOnly": "npm run build && npm run lint"
 	},
