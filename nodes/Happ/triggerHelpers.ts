@@ -22,7 +22,13 @@ export function selectNewItems(
 	const seenIds = new Set(state.seenIds ?? []);
 
 	const dated = items.filter((item) => timestampOf(item) !== '');
-	const sorted = [...dated].sort((a, b) => timestampOf(a).localeCompare(timestampOf(b)));
+	const sorted = [...dated].sort((a, b) => {
+		const tsA = timestampOf(a);
+		const tsB = timestampOf(b);
+		if (tsA < tsB) return -1;
+		if (tsA > tsB) return 1;
+		return 0;
+	});
 
 	const newItems = sorted.filter((item) => {
 		const ts = timestampOf(item);
