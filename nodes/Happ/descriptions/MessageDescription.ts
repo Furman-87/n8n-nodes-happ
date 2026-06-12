@@ -1,4 +1,11 @@
-import type { INodeProperties, INodePropertyOptions } from 'n8n-workflow';
+import type {
+	IDataObject,
+	IExecuteSingleFunctions,
+	IN8nHttpFullResponse,
+	INodeExecutionData,
+	INodeProperties,
+	INodePropertyOptions,
+} from 'n8n-workflow';
 
 export const messageSourceOptions: INodePropertyOptions[] = [
 	{ name: 'AI', value: 'AI' },
@@ -154,7 +161,30 @@ export const messageOperations: INodeProperties[] = [
 				name: 'Get Last',
 				value: 'getLast',
 				action: 'Get the last message of each chat',
-				routing: { request: { method: 'GET', url: '/api/messages/last' } },
+				routing: {
+					request: { method: 'GET', url: '/api/messages/last' },
+					output: {
+						postReceive: [
+							// API returns Record<chatId, message>; emit one item per message
+							async function (
+								this: IExecuteSingleFunctions,
+								items: INodeExecutionData[],
+								response: IN8nHttpFullResponse,
+							): Promise<INodeExecutionData[]> {
+								const body = response.body;
+								if (body === null || typeof body !== 'object' || Array.isArray(body)) {
+									return items;
+								}
+								return Object.values(body as IDataObject)
+									.filter(
+										(message): message is IDataObject =>
+											message !== null && typeof message === 'object',
+									)
+									.map((message) => ({ json: message }));
+							},
+						],
+					},
+				},
 			},
 			{
 				name: 'Get Many',
