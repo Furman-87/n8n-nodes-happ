@@ -30,15 +30,16 @@ export class HappApi implements ICredentialType {
 			type: 'options',
 			options: [
 				{
-					name: 'Development',
-					value: 'https://api.dev.happ.tools',
-				},
-				{
 					name: 'Production',
 					value: 'https://api.happ.tools',
 				},
+				{
+					name: 'Development',
+					value: 'https://api.dev.happ.tools',
+				},
 			],
 			default: 'https://api.happ.tools',
+			description: 'API environment to connect to. Use Production for live data.',
 		},
 	];
 
