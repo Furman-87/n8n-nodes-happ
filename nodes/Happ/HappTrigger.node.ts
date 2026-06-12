@@ -49,7 +49,7 @@ export class HappTrigger implements INodeType {
 				type: 'string',
 				default: '',
 				description:
-					'Watch a single chat. Leave empty to watch the latest message of every chat (one extra API call per poll).',
+					'Watch a single chat. Leave empty to watch every chat (one extra API call per poll). In all-chats mode only the latest message per chat is delivered each poll (rapid bursts in one chat may be coalesced) and at most the first 100 chats are watched.',
 				displayOptions: { show: { event: ['newMessage'] } },
 			},
 			{
