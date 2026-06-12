@@ -1,8 +1,8 @@
 # n8n-nodes-happ
 
-n8n community node for the [Happ Platform API](https://api.happ.tools/reference) —
+n8n community node for the [Happ platform](https://my.happ.tools/) —
 connect messenger channels (Telegram, Instagram, WhatsApp) and AI voice assistants
-to your n8n workflows.
+to your n8n workflows via the [Happ Platform API](https://api.happ.tools/reference).
 
 ## Installation
 
@@ -17,8 +17,9 @@ npm install n8n-nodes-happ
 
 ## Credentials
 
-1. Sign in at [my.happ.tools](https://my.happ.tools) and generate an **Access Token**
-   (or `POST /api/companies/{companyId}/access-tokens` with a JWT).
+1. Sign in at [my.happ.tools](https://my.happ.tools/) and generate an **Access Token**
+   (or `POST /api/companies/{companyId}/access-tokens` with a JWT). The token is
+   company-scoped (`happ_...`).
 2. In n8n create **Happ API** credentials: paste the token (`happ_...`) and pick the
    environment (Production / Development).
 
@@ -46,6 +47,7 @@ Polling trigger. Events:
 
 ## Resources
 
+- [Happ platform](https://my.happ.tools/)
 - [Happ API reference](https://api.happ.tools/reference)
 - [Happ docs](https://docs.happ.tools/en/docs/api)
 
