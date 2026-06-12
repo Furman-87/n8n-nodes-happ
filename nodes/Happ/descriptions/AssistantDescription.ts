@@ -337,14 +337,23 @@ export const assistantFields: INodeProperties[] = [
 		routing: { send: { type: 'body', property: 'phoneNumber' } },
 	},
 	{
-		displayName: 'Caller Assistant ID',
-		name: 'callerAssistantId',
-		type: 'string',
-		default: '',
-		description:
-			'ID of the assistant to make the call as (must belong to the same company). If empty, the route assistant is used.',
+		displayName: 'Additional Fields',
+		name: 'additionalFields',
+		type: 'collection',
+		placeholder: 'Add Field',
+		default: {},
 		displayOptions: { show: { resource: ['assistant'], operation: ['originateCall'] } },
-		routing: { send: { type: 'body', property: 'callerAssistantId' } },
+		options: [
+			{
+				displayName: 'Caller Assistant Name or ID',
+				name: 'callerAssistantId',
+				type: 'options',
+				typeOptions: { loadOptionsMethod: 'getAssistants' },
+				default: '',
+				description: 'Assistant to make the call as (must belong to the same company). If omitted, the route assistant is used. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+				routing: { send: { type: 'body', property: 'callerAssistantId' } },
+			},
+		],
 	},
 	{
 		displayName: 'Filters',
