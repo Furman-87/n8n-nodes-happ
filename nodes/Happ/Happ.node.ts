@@ -1,5 +1,6 @@
 import type { INodeType, INodeTypeDescription } from 'n8n-workflow';
 
+import { chatFields, chatOperations } from './descriptions/ChatDescription';
 import { messageFields, messageOperations } from './descriptions/MessageDescription';
 
 export class Happ implements INodeType {
@@ -37,9 +38,14 @@ export class Happ implements INodeType {
 				name: 'resource',
 				type: 'options',
 				noDataExpression: true,
-				options: [{ name: 'Message', value: 'message' }],
+				options: [
+					{ name: 'Chat', value: 'chat' },
+					{ name: 'Message', value: 'message' },
+				],
 				default: 'message',
 			},
+			...chatOperations,
+			...chatFields,
 			...messageOperations,
 			...messageFields,
 		],
