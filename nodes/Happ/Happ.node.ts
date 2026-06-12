@@ -1,7 +1,15 @@
-import type { INodeType, INodeTypeDescription } from 'n8n-workflow';
+import type {
+	IDataObject,
+	ILoadOptionsFunctions,
+	INodePropertyOptions,
+	INodeType,
+	INodeTypeDescription,
+} from 'n8n-workflow';
 
+import { assistantFields, assistantOperations } from './descriptions/AssistantDescription';
 import { chatFields, chatOperations } from './descriptions/ChatDescription';
 import { messageFields, messageOperations } from './descriptions/MessageDescription';
+import { happApiRequest, toListItems } from './GenericFunctions';
 
 export class Happ implements INodeType {
 	description: INodeTypeDescription = {
@@ -39,15 +47,39 @@ export class Happ implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
+					{ name: 'Assistant', value: 'assistant' },
 					{ name: 'Chat', value: 'chat' },
 					{ name: 'Message', value: 'message' },
 				],
 				default: 'message',
 			},
+			...assistantOperations,
+			...assistantFields,
 			...chatOperations,
 			...chatFields,
 			...messageOperations,
 			...messageFields,
 		],
+	};
+
+	methods = {
+		loadOptions: {
+			async getAssistants(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const response = await happApiRequest.call(this, 'GET', '/api/assistants', {
+					take: 100,
+				});
+				return toListItems(response).map((assistant: IDataObject) => ({
+					name: String(assistant.name ?? assistant.id),
+					value: String(assistant.id),
+				}));
+			},
+			async getCompanies(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const response = await happApiRequest.call(this, 'GET', '/api/companies/my');
+				return toListItems(response).map((company: IDataObject) => ({
+					name: String(company.name ?? company.id),
+					value: String(company.id),
+				}));
+			},
+		},
 	};
 }
