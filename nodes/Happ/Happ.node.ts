@@ -74,7 +74,11 @@ export class Happ implements INodeType {
 				}));
 			},
 			async getCompanies(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
-				const response = await happApiRequest.call(this, 'GET', '/api/companies/my');
+				// /api/companies/my requires a JWT; /api/companies works with an
+				// access token and returns only the token's company.
+				const response = await happApiRequest.call(this, 'GET', '/api/companies', {
+					take: 100,
+				});
 				return toListItems(response).map((company: IDataObject) => ({
 					name: String(company.name ?? company.id),
 					value: String(company.id),

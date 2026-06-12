@@ -52,10 +52,12 @@ export class HappApi implements ICredentialType {
 		},
 	};
 
+	// /api/companies/my is user-scoped (JWT only) and rejects company-scoped
+	// access tokens, so the test uses a company-scoped endpoint instead.
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: '={{$credentials.baseUrl}}',
-			url: '/api/companies/my',
+			url: '/api/chats/messengers',
 		},
 	};
 }
