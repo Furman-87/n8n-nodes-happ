@@ -34,7 +34,7 @@ Custom App для [Make.com](https://www.make.com/) к [Happ Platform API](https
 ## Архитектура компонентов
 
 ### Base (`base.iml.json`)
-- `baseUrl`: `{{connection.environmentUrl}}` — берётся из соединения, сохраняя выбор Production/Development.
+- `baseUrl`: `{{connection.environment}}` — берётся из соединения (параметр-`select`, значение которого = URL окружения), сохраняя выбор Production/Development.
 - `headers`: `{ "X-Access-Token": "{{connection.accessToken}}" }` — наследуется всеми модулями и RPC.
 - `response.error`: единый разбор ошибок (`[{{statusCode}}]: ...` из тела ответа).
 - `log.sanitize`: `["request.headers.X-Access-Token"]`.
@@ -42,7 +42,7 @@ Custom App для [Make.com](https://www.make.com/) к [Happ Platform API](https
 ### Connection (Basic, `connections/happ`)
 - Параметры:
   - `accessToken` — type `password`, required. Описание: формат `happ_...`, company-scoped, с my.happ.tools.
-  - `environment` — type `select`, опции: Production `https://api.happ.tools` (по умолчанию), Development `https://api.dev.happ.tools`. Выбранное значение сохраняется как `environmentUrl` через `response.data` (или эквивалент), чтобы Base мог его прочитать как `{{connection.environmentUrl}}`.
+  - `environment` — type `select`, опции: Production `https://api.happ.tools` (по умолчанию), Development `https://api.dev.happ.tools`. Значением опции является сам URL, поэтому Base читает его напрямую как `{{connection.environment}}`.
 - Проверка (communication): `GET {environmentUrl}/api/chats/messengers` с заголовком `X-Access-Token: {{parameters.accessToken}}`; `valid` при `statusCode === 200`.
 
   Примечание: внутри самого блока проверки соединения значения берутся как `{{parameters.accessToken}}` (ещё не сохранены); во всех остальных местах (Base, модули, RPC) — `{{connection.accessToken}}`.
