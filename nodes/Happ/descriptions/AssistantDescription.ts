@@ -353,6 +353,21 @@ export const assistantFields: INodeProperties[] = [
 				description: 'Assistant to make the call as (must belong to the same company). If omitted, the route assistant is used. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 				routing: { send: { type: 'body', property: 'callerAssistantId' } },
 			},
+			{
+				displayName: 'Dynamic Variables',
+				name: 'dynamicVariables',
+				type: 'json',
+				default: '{}',
+				description:
+					'Arbitrary key/value pairs forwarded to the voice assistant as dynamic_variables, e.g. {"customer_name":"John Doe"}. Use to personalize the conversation.',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'dynamicVariables',
+						value: '={{ typeof $value === "string" ? JSON.parse($value) : $value }}',
+					},
+				},
+			},
 		],
 	},
 	{
