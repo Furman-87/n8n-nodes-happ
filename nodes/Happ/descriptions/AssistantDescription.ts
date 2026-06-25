@@ -252,7 +252,7 @@ export const assistantFields: INodeProperties[] = [
 		description:
 			'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
-			show: { resource: ['assistant'], operation: ['delete', 'get', 'originateCall', 'update'] },
+			show: { resource: ['assistant'], operation: ['delete', 'get', 'update'] },
 		},
 	},
 	{
@@ -326,6 +326,17 @@ export const assistantFields: INodeProperties[] = [
 		],
 	},
 	{
+		displayName: 'Route Assistant Name or ID',
+		name: 'assistantId',
+		type: 'options',
+		typeOptions: { loadOptionsMethod: 'getAssistants' },
+		required: true,
+		default: '',
+		description:
+			'The assistant the phone number is connected to; the call goes out on its line. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+		displayOptions: { show: { resource: ['assistant'], operation: ['originateCall'] } },
+	},
+	{
 		displayName: 'Phone Number',
 		name: 'phoneNumber',
 		type: 'string',
@@ -350,7 +361,7 @@ export const assistantFields: INodeProperties[] = [
 				type: 'options',
 				typeOptions: { loadOptionsMethod: 'getAssistants' },
 				default: '',
-				description: 'Assistant to make the call as (must belong to the same company). If omitted, the route assistant is used. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+				description: 'Place the call as this assistant — its voice and logic run the conversation, on the Route Assistant line. Must belong to the same company. If omitted, the Route Assistant is used. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 				routing: { send: { type: 'body', property: 'callerAssistantId' } },
 			},
 			{
